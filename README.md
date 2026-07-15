@@ -31,7 +31,9 @@ You can include a simple diagram or bullet list if helpful.
 
 A real-world recommendation system works by blending several different methods:  filtering on listeners' behavior (listening history, skips, likes, etc.,), content based matching on audio traits (such as energy, tempo, etc.,) and collaborative filtering to further offer recommendations based on other users with similar likes/tastes. 
 
-Using a pure content based matching system, we can then prioritize those attributes which contribute *more* to likeability and score them. Then using those scores, we can rank the songs and be able to "hand back" a top 5 list to the user.
+Using a pure content based matching system, we can then prioritize those attributes which contribute *more* to likeability and score them. Each song is scored by comparing its input data (features) to the users target preferences. The closer a song's values are to what the user wants, the higher its score.
+Then using those scores, we can rank the songs and be able to "hand back" a top 5 list to the user.
+ 
 
 Since users mostly enjoy and want more of the music which resonates with them, focusing on those attributes will be the most helpful with recommending songs. Attributes such as song id, song name while they may contribute to a future song a user may like, attributes such as energy, danceability, or valence affect it more. 
 
@@ -46,7 +48,7 @@ For `UserProfile`, we'll be using:
 * target_energy
 * target_valence
 * target_danceability
-* target_tempoBPM
+* target_tempo_bpm
 * target_genre
 
 
