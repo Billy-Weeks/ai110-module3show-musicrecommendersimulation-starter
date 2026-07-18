@@ -31,7 +31,7 @@ You can include a simple diagram or bullet list if helpful.
 
 A real-world recommendation system works by blending several different methods:  filtering on listeners' behavior (listening history, skips, likes, etc.,), content based matching on audio traits (such as energy, tempo, etc.,) and collaborative filtering to further offer recommendations based on other users with similar likes/tastes. 
 
-Using a pure content based matching system, we can then prioritize those attributes which contribute *more* to likeability and score them. Each song is scored by comparing its input data (features) to the users target preferences. The closer a song's values are to what the user wants, the higher its score.
+Using a pure content based matching system, we can then prioritize those attributes which contribute *more* to likeability and score them. Each song is scored by comparing its input data (features) to the user's target preferences. The closer a song's values are to what the user wants, the higher its score.
 Then using those scores, we can rank the songs and be able to "hand back" a top 5 list to the user.
  
 
@@ -51,6 +51,31 @@ For `UserProfile`, we'll be using:
 * target_tempo_bpm
 * target_genre
 
+### How the score is computed (algorithm recipe)
+
+Each song earns points by how well it matches the profile (a perfect song totals 4.5):
+
+| Feature | Rule | Max |
+|---|---|---|
+| genre | exact match +1.0, same family +0.5, else 0 | 1.0 |
+| energy | 1.5 × (1 − distance) | 1.5 |
+| valence | 1.0 × (1 − distance) | 1.0 |
+| danceability | 0.5 × (1 − distance) | 0.5 |
+| tempo_bpm | 0.5 × (1 − normalized distance) | 0.5 |
+
+- **distance** = how far a song's value is from the user's target; closer = more points.
+- **tempo** is normalized by the catalog's BPM range so it can't dominate the score.
+- **Genre families** group similar genres (e.g. rock/metal), so a near-genre still earns partial credit.
+
+Energy is the single heaviest lever (1.5 of 4.5); genre is kept intentionally light so a great song in a *different* genre can still be recommended, rather than being buried by a large genre penalty. Songs are then **ranked** by total score, and the **top 5** are returned.
+
+### Potential biases
+
+- **Energy bias:** because energy carries the most weight, the system may over-prioritize energy and rank an energetic-but-emotionally-mismatched song above one that better fits the user's mood. A high-energy song with the "wrong" feel can still score well.
+- **Ignored dimensions:** `mood` and `acousticness` are not scored at all, so any taste tied to those traits is invisible to the recommender.
+- **Subjective genre families:** the family groupings are hand-picked, so which genres count as "similar" reflects my own assumptions rather than any objective measure.
+- **Small, uneven catalog:** with only a handful of songs and some genres better represented than others, well-covered genres (pop, lofi) have more chances to surface than sparse ones (classical, reggae).
+- **Single-point profile:** one set of target values can't represent a listener who genuinely likes two very different styles at once (e.g. intense rock *and* chill lofi).
 
 ---
 
@@ -113,6 +138,9 @@ Use this section to document the experiments you ran. For example:
 - What happened when you changed the weight on genre from 2.0 to 0.5
 - What happened when you added tempo or valence to the score
 - How did your system behave for different types of users
+
+Initial taste profile consisted of a binary genre: Either selection was target_genre (1) or it was not (0). This meant if say I chose "rock" as the target_genre, a song that was "indie-rock" or "metal-rock" would score a 0 despite them being *similar* to the target_genre.
+Adjusted target_genre to incorporate genre *families* where if the genre was an exact match (i.e. rock), it'll be given a 1.0. If it's within the same family, then the song would be given a 0.5 and finally if it's neither, it'll be given a 0.0.
 
 ---
 
