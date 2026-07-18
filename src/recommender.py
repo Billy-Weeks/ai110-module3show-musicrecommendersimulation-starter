@@ -36,13 +36,16 @@ class Recommender:
     Required by tests/test_recommender.py
     """
     def __init__(self, songs: List[Song]):
+        """Stores the catalog of songs this recommender ranks over."""
         self.songs = songs
 
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
+        """Returns the top-k songs best matching the given user's taste."""
         # TODO: Implement recommendation logic
         return self.songs[:k]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
+        """Returns a human-readable reason why a song was recommended to a user."""
         # TODO: Implement explanation logic
         return "Explanation placeholder"
 
@@ -89,6 +92,13 @@ TEMPO_RANGE = 108.0
 
 
 def genre_score(target_genre: str, song_genre: str) -> float:
+    """
+    Scores how well a song's genre matches the user's target genre.
+
+    Returns 1.0 for an exact match, 0.5 when both genres belong to the same
+    family (see GENRE_FAMILIES), and 0.0 otherwise. Softens the categorical
+    "cliff" so adjacent genres still earn partial credit.
+    """
     if song_genre == target_genre:
         return 1.0
     if GENRE_TO_FAMILY.get(song_genre) == GENRE_TO_FAMILY.get(target_genre):

@@ -24,16 +24,27 @@ def main() -> None:
         "target_tempo_bpm": 122,
     }
 
+    print("\n" + "=" * 44)
+    print("  USER TASTE PROFILE")
+    print("=" * 44)
+    for key, value in user_prefs.items():
+        label = key.replace("target_", "").replace("_", " ").title()
+        print(f"  {label:<14}: {value}")
+
     recommendations = recommend_songs(user_prefs, songs, k=5)
 
-    print("\nTop recommendations:\n")
-    for rec in recommendations:
-        # You decide the structure of each returned item.
-        # A common pattern is: (song, score, explanation)
-        song, score, explanation = rec
-        print(f"{song['title']} - Score: {score:.2f}")
-        print(f"Because: {explanation}")
-        print()
+    print("\n" + "=" * 44)
+    print(f"  TOP {len(recommendations)} RECOMMENDATIONS")
+    print("=" * 44)
+
+    for rank, (song, score, explanation) in enumerate(recommendations, start=1):
+        print(f"\n{rank}. {song['title']} — {song['artist']}")
+        print(f"   Score: {score:.2f}")
+        print("   Why:")
+        for reason in explanation.split(", "):
+            print(f"     • {reason}")
+
+    print()
 
 
 if __name__ == "__main__":

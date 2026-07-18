@@ -119,12 +119,62 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+============================================
+  USER TASTE PROFILE
+============================================
+  Genre         : pop
+  Energy        : 0.75
+  Valence       : 0.8
+  Danceability  : 0.75
+  Tempo Bpm     : 122
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Sunrise City — Neon Echo
+   Score: 4.32
+   Why:
+     • genre match: pop (+1.0)
+     • energy near target (+1.40)
+     • valence near target (+0.96)
+     • danceability near target (+0.48)
+     • tempo_bpm near target (+0.48)
+
+2. Gym Hero — Max Pulse
+   Score: 4.09
+   Why:
+     • genre match: pop (+1.0)
+     • energy near target (+1.23)
+     • valence near target (+0.97)
+     • danceability near target (+0.43)
+     • tempo_bpm near target (+0.45)
+
+3. Rooftop Lights — Indigo Parade
+   Score: 3.93
+   Why:
+     • same genre family as pop (+0.5)
+     • energy near target (+1.48)
+     • valence near target (+0.99)
+     • danceability near target (+0.47)
+     • tempo_bpm near target (+0.49)
+
+4. Night Drive Loop — Neon Echo
+   Score: 3.12
+   Why:
+     • energy near target (+1.50)
+     • valence near target (+0.69)
+     • danceability near target (+0.49)
+     • tempo_bpm near target (+0.44)
+
+5. Paper Boats — Little Harbor
+   Score: 3.10
+   Why:
+     • same genre family as pop (+0.5)
+     • energy near target (+0.99)
+     • valence near target (+0.83)
+     • danceability near target (+0.40)
+     • tempo_bpm near target (+0.38)
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
