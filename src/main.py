@@ -10,26 +10,66 @@ You will implement the functions in recommender.py:
 """
 
 from recommender import load_songs, recommend_songs
+from tabulate import tabulate
+import re
+
+# Friendly, word-based labels for each generated numeric reason.
+# (mood and acousticness are intentionally absent — the scorer doesn't use them.)
+REASON_LABELS = {
+    "energy": "energy fit",
+    "valence": "valence fit",
+    "danceability": "danceability fit",
+    "tempo_bpm": "tempo fit",
+}
+
+
+def top_reasons(explanation, n=3):
+    """
+    Summarize a generated explanation into its n highest-scoring reasons, in words.
+
+    Each reason string ends with its point contribution, e.g. "energy near target
+    (+1.46)". We parse those points, keep the n biggest, and phrase them as plain
+    words (strongest first) so the "why" is readable instead of a wall of numbers.
+    """
+    parsed = []
+    for reason in explanation.split(", "):
+        match = re.search(r"\(\+?(-?\d+(?:\.\d+)?)\)\s*$", reason)
+        points = float(match.group(1)) if match else 0.0
+        if reason.startswith("genre match"):
+            label = "exact genre match"
+        elif reason.startswith("same genre family"):
+            label = "same-genre family"
+        else:
+            key = reason.split(" ", 1)[0]
+            label = REASON_LABELS.get(key, key)
+        parsed.append((points, label))
+
+    parsed.sort(key=lambda item: item[0], reverse=True)
+    return ", ".join(label for _, label in parsed[:n])
+
 
 # Moved output code to a smaller helper function to allow for different profiles to be passed through
 def show_recommendations(name, prefs, songs, k=5):
-    print("\n" + "=" * 44)
-    print(f"  {name.upper()} — TASTE PROFILE")
-    print("=" * 44)
-    for key, value in prefs.items():
-        label = key.replace("target_", "").replace("_", " ").title()
-        print(f"  {label:<14}: {value}")
+    # --- Taste profile: two-column table of the user's target values ---
+    print(f"\n{name.upper()} — TASTE PROFILE")
+    profile_rows = [
+        (key.replace("target_", "").replace("_", " ").title(), value)
+        for key, value in prefs.items()
+    ]
+    print(tabulate(profile_rows, headers=["Attribute", "Value"], tablefmt="rounded_outline"))
 
+    # --- Recommendations: one row per song; "Why" gives the top 3 reasons in words ---
     recommendations = recommend_songs(prefs, songs, k=k)
-    print("\n" + "=" * 44)
-    print(f"  TOP {len(recommendations)} RECOMMENDATIONS")
-    print("=" * 44)
-    for rank, (song, score, explanation) in enumerate(recommendations, start=1):
-        print(f"\n{rank}. {song['title']} — {song['artist']}")
-        print(f"   Score: {score:.2f}")
-        print("   Why:")
-        for reason in explanation.split(", "):
-            print(f"     • {reason}")
+    print(f"\nTOP {len(recommendations)} RECOMMENDATIONS")
+    table_rows = [
+        [rank, song["title"], song["artist"], f"{score:.2f}", top_reasons(explanation)]
+        for rank, (song, score, explanation) in enumerate(recommendations, start=1)
+    ]
+    print(tabulate(
+        table_rows,
+        headers=["#", "Title", "Artist", "Score", "Why (top 3 reasons)"],
+        tablefmt="grid",
+    ))
     print()
 
 def main() -> None:

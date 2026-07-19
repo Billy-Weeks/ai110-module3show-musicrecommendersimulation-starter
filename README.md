@@ -441,6 +441,38 @@ Loading songs from data/songs.csv...
      • tempo_bpm near target (+-0.28)
      
 ```
+**Example Output Using Improved Formatting**
+
+```
+
+ROCK HEAVY — TASTE PROFILE
+╭──────────────┬─────────╮
+│ Attribute    │ Value   │
+├──────────────┼─────────┤
+│ Genre        │ rock    │
+│ Energy       │ 0.9     │
+│ Valence      │ 0.55    │
+│ Danceability │ 0.5     │
+│ Tempo Bpm    │ 130     │
+╰──────────────┴─────────╯
+
+TOP 5 RECOMMENDATIONS
++-----+--------------+--------------+---------+--------------------------------------------+
+|   # | Title        | Artist       |   Score | Why (top 3 reasons)                        |
++=====+==============+==============+=========+============================================+
+|   1 | Storm Runner | Voltline     |    4.23 | energy fit, exact genre match, valence fit |
++-----+--------------+--------------+---------+--------------------------------------------+
+|   2 | Iron Verdict | Ashfall      |    3.42 | energy fit, valence fit, same-genre family |
++-----+--------------+--------------+---------+--------------------------------------------+
+|   3 | Signal Lost  | Grid Runner  |    3.24 | energy fit, valence fit, tempo fit         |
++-----+--------------+--------------+---------+--------------------------------------------+
+|   4 | Neon Alley   | Pulse Theory |    3.04 | energy fit, valence fit, tempo fit         |
++-----+--------------+--------------+---------+--------------------------------------------+
+|   5 | Gym Hero     | Max Pulse    |    3.04 | energy fit, valence fit, tempo fit         |
++-----+--------------+--------------+---------+--------------------------------------------+
+
+
+```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
