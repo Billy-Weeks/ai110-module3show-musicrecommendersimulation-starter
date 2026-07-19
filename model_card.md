@@ -3,13 +3,14 @@
 ## 1. Model Name  
 
 DownloadDash
+
 ---
 
 ## 2. Intended Use  
 
 **DownloadDash** is a simple content-based music recommender that takes a listener's profile of their tastes and ranks a catalog of songs to return the top matches, along with a short explanation as to why those specific songs were chosen.
 
-* This app assumes the listener can describe their tastes as numbers on a 0-1 scale (except for tempo BPM), that those preferences are internally consistent, and that a single genre plus four additional attributes (energy, valence (overall happiness), danceability, and tempo) is able to capture the essence of what someone wants to hear. It does *not* learn from listenting history, feedback or context (what day/time of day it is, activity like working out, etc).
+* This app assumes the listener can describe their tastes as numbers on a 0-1 scale (except for tempo BPM), that those preferences are internally consistent, and that a single genre plus four additional attributes (energy, valence (overall happiness), danceability, and tempo) is able to capture the essence of what someone wants to hear. It does *not* learn from listening history, feedback or context (what day/time of day it is, activity like working out, etc).
 
 * This app is built for classroom exploration only. The idea is to understand how a scoring-weighing system works and produces recommendations. As well as to highlight where biases can come from in regards to selecting recommendations.
 
@@ -19,11 +20,11 @@ DownloadDash
 
 Avoid code here. Pretend you are explaining the idea to a friend who does not program.
 
-This model works by taking a few of the main attributes and giving them a rank of how important there are to what would be liked about the song. The listener is able to set this specific attributes to what they enjoy listening too (a target). I.e. someone who really likes songs that are upbeat and happy may score *valance* as a higher number. Not all the chosen attributes matter the same, so energy is given a greater **weight** than say danceability. 
+This model works by taking a few of the main attributes and giving them a rank of how important they are to what would be liked about the song. The listener is able to set these specific attributes to what they enjoy listening too (a target). I.e. someone who really likes songs that are upbeat and happy may score *valence* as a higher number. Not all the chosen attributes matter the same, so energy is given a greater **weight** than say danceability. 
 
-Then a song is, using it's already decided values for the same attributes, compared to the target. A song whose values are closer to the target (either less than or greater than) is scored higher for that attribute. *Genre* is handled slightly differently due it not being a numerical value. Genres are split into families of similar genres. If a song perfectly matches a target genre, then it earns the highest score for that attribute. If a song matches within the same family, it'll earn less and all other cases will receive no points for this attribute. Once all attributes are individually scored, each score is added up and listed in order highest score to lowest. Only the top are given as recommendations. 
+Then a song is, using its already decided values for the same attributes, compared to the target. A song whose values are closer to the target (either less than or greater than) is scored higher for that attribute. *Genre* is handled slightly differently due to it not being a numerical value. Genres are split into families of similar genres. If a song perfectly matches a target genre, then it earns the highest score for that attribute. If a song matches within the same family, it'll earn less and all other cases will receive no points for this attribute. Once all attributes are individually scored, each score is added up and listed in order highest score to lowest. Only the top are given as recommendations. 
 
-Originally, the logic started with genre being completely binary: either the genre matched or it didn't. This gave too much bias to songs that matched in genre and adversely affected those songs who might had a genre similar but not exact. Now, genres like edm or synthwave will have a similarity match with techno. Also, since tempo is in a range of about 60 - 168, it was normalized so it wouldn't overpower the rest of the scores which are scored 0-1.
+Originally, the logic started with genre being completely binary: either the genre matched or it didn't. This gave too much bias to songs that matched in genre and adversely affected songs that might have a genre similar but not exact. Now, genres like *edm* or *synthwave* will have a similarity match with techno. Also, since tempo is in a range of about 60 - 168, it was normalized so it wouldn't overpower the rest of the scores which are scored 0-1.
 
 ---
 
@@ -39,29 +40,29 @@ What's missing: the biggest gap is *depth per genre* — most genres have only o
 
 ## 5. Strengths  
 
-This model/app works best for coherent, maintstream-genre listeners. Profiles whose genre exists in the catalog and whose numeric targets don't contradict each other (as seen in the tests with **Emo Rager** and **Out of Bounds**)
+This model/app works best for coherent, mainstream-genre listeners. Profiles whose genre exists in the catalog and whose numeric targets don't contradict each other (unlike the **Emo Rager** and **Out of Bounds** stress tests)
 
 The scoring does well with matching several patterns:
 
-* **Proximity on energy and mood**-> Due to energy and valence having the heaviest numeric weights, the model relaiable rewards songs that "feel" right
+* **Proximity on energy and mood**-> Due to energy and valence having the heaviest numeric weights, the model reliably rewards songs that "feel" right
 
 * **Graceful genre neighbors**-> My genre-family change means that when there isn't a second song in the exact genre, the runner-ups are still *related* styles instead of random picks. 
 
-* **Transparency** Every recommendataion comes with a per-feature "why" breakdown, so it's easy to see *why* a song won and making the system interpretable, not a black box.
+* **Transparency** Every recommendation comes with a per-feature "why" breakdown, so it's easy to see *why* a song won, making the system interpretable, not a black box.
 
 
 ---
 
 ## 6. Limitations and Bias 
 
-The scoring function awards a "genre bonus" which creates a situation where genre pushes songs to the front despite other categories ratings which may conflict. Due to the scoring of +1.0 for an exact genre match, a +0.5 for a familial match, and 0.0 for everything else, a song that matches a user's desired genre will almost always outrank an off-genre song that may match energy, valence, danceability, and temp better. This causes an almost echo-chamber like effect where the user will constantly be suggested songs from the same genre and narrowing discover of other genres over time.   
+The scoring function awards a "genre bonus" which creates a situation where genre pushes songs to the front despite other categories ratings which may conflict. Due to the scoring of +1.0 for an exact genre match, a +0.5 for a familial match, and 0.0 for everything else, a song that matches a user's desired genre will almost always outrank an off-genre song that may match energy, valence, danceability, and tempo better. This causes an almost echo-chamber like effect where the user will constantly be suggested songs from the same genre and narrowing discovery of other genres over time.   
 
 ---
 
 ## 7. Evaluation  
 
 **Profiles I tested:**
-* I ran five profiles: three realistic personas (**Rock Heavy**->rock, loud, **Not Technoblad**-> techno, upbeat, danceable, **Hip Hop-optamus**-> hip hop, groovy, mid-tempo) and two profiles deliberately designed to stress test (**Emo Rager**-> metal, but with contradictory targets: loud yet sad, fast-feeling yet slow, and **Out of Bounds**-> a fake genre and impossible numbers that go out of assumed bounds)
+* I ran five profiles: three realistic personas (**Rock Heavy**->rock, loud, **Not Technoblade**-> techno, upbeat, danceable, **Hip Hop-optamus**-> hip hop, groovy, mid-tempo) and two profiles deliberately designed to stress test (**Emo Rager**-> metal, but with contradictory targets: loud yet sad, fast-feeling yet slow, and **Out of Bounds**-> a fake genre and impossible numbers that go out of assumed bounds)
 
 **What I looked for:**
 * For each profile I checked whether the #1 song actually matched the persona and whether off-genre songs that fit the _numbers_ well could still sneak into the top 5. All three realistic profiles put the "correct" genre at #1, which was reassuring.
@@ -71,7 +72,7 @@ The scoring function awards a "genre bonus" which creates a situation where genr
 
 This highlighted the fact that as the recommender exists currently there is no validation or error handling and that it just *trusts* any of the inputs given. 
 
-* *Gym Hero* a designated pop song seemed to pop up profiles that I wouldn't otherwise assume it would: **Rock Heavy** and **Not Technoblade**. Since this song has an extremely high energy score (0.93) and due to how the recommender weighs energy almost as high as genre, it will sneak into a profile that it's genre doesn't match. 
+* *Gym Hero* a designated pop song seemed to pop up in profiles that I wouldn't otherwise assume it would: **Rock Heavy** and **Not Technoblade**. Since this song has an extremely high energy score (0.93) and due to how the recommender weighs energy almost as high as genre, it will sneak into a profile that its genre doesn't match. 
 
 **Comparisons:**
 
@@ -79,7 +80,7 @@ This highlighted the fact that as the recommender exists currently there is no v
   * Rock gets rock (Storm Runner) and techno gets techno (Signal Lost); interestingly Storm Runner appears in both top 5s because both personas want high energy, showing energy crosses genre lines. Makes sense.
 
 * **Rock Heavy vs. Hip Hop-optamus**
-  * Rock's winner leans on high energy (0.9) while hip hop's winner (Concrete Kings) wins on a perfect valence match (+1.00) at a much lower tempo (95 vs 130); the profiles correctly pull in opposite tempo/energy direcitons.
+  * Rock's winner leans on high energy (0.9) while hip hop's winner (Concrete Kings) wins on a perfect valence match (+1.00) at a much lower tempo (95 vs 130); the profiles correctly pull in opposite tempo/energy directions.
 
 * **Rock Heavy vs. Emo Rager**
   * Both live in the rock/metal family and share Storm Runner and Iron Verdict, but Rock Heavy ranks the rock song first and Emo Rager the metal song first, purely from the exact-genre bonus flipping their order.
@@ -111,7 +112,7 @@ This highlighted the fact that as the recommender exists currently there is no v
 ## 8. Future Work  
 
 * **Input validation and clamping**
-  * The Out of Bounds test showed the model trusts any and all inputs, even impossible ones, producing negative point contributions. Adding range-checking and a feature that assigns the max/min if a value goes outside of the range in either direction. 
+  * The Out of Bounds test showed the model trusts any and all inputs, even impossible ones, producing negative point contributions. Adding range-checking and a feature that assigns the max/min if a value goes outside of the range in either direction would allow the model to defend against those impossible inputs. 
 
 * **Use the features I'm ignoring**
   * _Mood_ and _acousticness_ are in the data but aren't scored and so the `likes_acoustic` doesn't do anything. Adding these would allow quieter or acoustic tastes to expressed.
@@ -129,10 +130,10 @@ This highlighted the fact that as the recommender exists currently there is no v
 
 ## 9. Personal Reflection  
 
-During this project I learned more about how music apps/sites like Spotify actually recommend music to its listeners. I always assumed it was pretty invovled, however I don't think I fully understood the scope. Even as I did this project which is supposed to be a "simple" version of one of those, I found myself getting into the weeds of balancing importance, what attributes to include (and why!), how to normalize each category which inherently are supposed to be describing the same thing, etc. 
+During this project I learned more about how music apps/sites like Spotify actually recommend music to its listeners. I always assumed it was pretty involved, however I don't think I fully understood the scope. Even as I did this project which is supposed to be a "simple" version of one of those, I found myself getting into the weeds of balancing importance, what attributes to include (and why!), how to normalize each category which inherently are supposed to be describing the same thing, etc. 
 
-I initially went in knowing that genre matches would be a burden on the scoring system, and I deliberately tried to avoid allowing that. However even with that thought my first skeleton of the model did in fact cause those issues as did my first attempt to "fix" that issue. In fact my misundertanding of the weights actually caused genre to have such a huge gap that even if a song matched perfectly on all other attributes, it wouldn't get recommended over a song of the same genre that had a huge differences in every other attribute. 
+I initially went in knowing that genre matches would be a burden on the scoring system, and I deliberately tried to avoid allowing that. However even with that thought my first skeleton of the model did in fact cause those issues as did my first attempt to "fix" that issue. In fact my misunderstanding of the weights actually caused genre to have such a huge gap that even if a song matched perfectly on all other attributes, it wouldn't get recommended over a song of the same genre that had a huge differences in every other attribute. 
 
-I believe that though this model is "simple" it still did well with recommended songs that, if they were real, would be similar to whatever profile I would set. 
+I believe that though this model is "simple" it still did well with recommending songs that, if they were real, would be similar to whatever profile I would set. 
 
 In this project, I did use AI tools heavily in helping me understand what the prompts were asking me to do and/or explain some topics to me (i.e. Valence was something I hadn't heard of before). While attempting the first few steps, I had a feeling that I wasn't understanding something especially when we came to weights and it seemed to be doing the opposite of what I understood it to be doing. Using the agent to describe simply what was being asked or even having it check what I wrote/did was a huge help with this project. 

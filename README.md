@@ -2,32 +2,11 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
+DownloadDash is a small content-based recommender. It represents each song and a user "taste profile" as numeric features (energy, valence, danceability, tempo) plus a genre, scores every song by how closely it matches the profile and returns the top songs with a short explanation of why each was chosen. This project builds that scoring rule, evaluates it against several user profiles (including deliberately broken ones) and reflects on its biases in the the [**Model Card**](model_card.md)
 
 ---
 
 ## How The System Works
-
-Explain your design in plain language.
-
-Some prompts to answer:
-
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
-
-You can include a simple diagram or bullet list if helpful.
 
 A real-world recommendation system works by blending several different methods:  filtering on listeners' behavior (listening history, skips, likes, etc.,), content based matching on audio traits (such as energy, tempo, etc.,) and collaborative filtering to further offer recommendations based on other users with similar likes/tastes. 
 
@@ -107,7 +86,7 @@ python -m src.main
 Run the starter tests with:
 
 ```bash
-pytest
+python -m pytest
 ```
 
 You can add more tests in `tests/test_recommender.py`.
@@ -482,15 +461,17 @@ Adjusted target_genre to incorporate genre *families* where if the genre was an 
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+This recommender is intentionally simple, so it has rea limits:
+  * **Tiny, uneven catalog**
+    * Only 20 songs, and most genres have just one track, so a "winner" is often the *only* option in its genre rather than a truly best match
+  * **No Understanding of lyrics, language, era, or artist**
+    * It only sees give numeric/label features, so it can't tell a sad-lyrics song from a happy one.
+  * **Genre and energy dominate**
+    * It can over-favor the user's stated genre (a filter-bubble effect) and lean toward high-energy songs regardless of fit.
+  * **Ignores mood andacousticness**
+    * Those columns exist in the data but aren't scored, so tastes tied to them can't be expressed.
+  * ** No input validation**
+    * An impossible or contradictory profile still returns a confident "winner" instead of flagging it.
 
 ---
 
@@ -499,11 +480,3 @@ You will go deeper on this in your model card.
 Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
-
