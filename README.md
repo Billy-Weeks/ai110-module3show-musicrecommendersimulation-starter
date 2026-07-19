@@ -118,6 +118,7 @@ You can add more tests in `tests/test_recommender.py`.
 
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
+**Initial Output using _default_ user profile**
 ```
 ============================================
   USER TASTE PROFILE
@@ -175,6 +176,291 @@ Paste a sample of your recommender's output here as a text block so a reader can
      • valence near target (+0.83)
      • danceability near target (+0.40)
      • tempo_bpm near target (+0.38)
+```
+
+**Now using 3 different profiles AND 2 AI generated _edge test_ profiles**
+```
+Loading songs from data/songs.csv...
+
+============================================
+  ROCK HEAVY — TASTE PROFILE
+============================================
+  Genre         : rock
+  Energy        : 0.9
+  Valence       : 0.55
+  Danceability  : 0.5
+  Tempo Bpm     : 130
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Storm Runner — Voltline
+   Score: 4.23
+   Why:
+     • genre match: rock (+1.0)
+     • energy near target (+1.48)
+     • valence near target (+0.93)
+     • danceability near target (+0.42)
+     • tempo_bpm near target (+0.40)
+
+2. Iron Verdict — Ashfall
+   Score: 3.42
+   Why:
+     • same genre family as rock (+0.5)
+     • energy near target (+1.40)
+     • valence near target (+0.71)
+     • danceability near target (+0.49)
+     • tempo_bpm near target (+0.32)
+
+3. Signal Lost — Grid Runner
+   Score: 3.24
+   Why:
+     • energy near target (+1.47)
+     • valence near target (+0.94)
+     • danceability near target (+0.33)
+     • tempo_bpm near target (+0.50)
+
+4. Neon Alley — Pulse Theory
+   Score: 3.04
+   Why:
+     • energy near target (+1.43)
+     • valence near target (+0.83)
+     • danceability near target (+0.29)
+     • tempo_bpm near target (+0.49)
+
+5. Gym Hero — Max Pulse
+   Score: 3.04
+   Why:
+     • energy near target (+1.46)
+     • valence near target (+0.78)
+     • danceability near target (+0.31)
+     • tempo_bpm near target (+0.49)
+
+
+============================================
+  NOT TECHNOBLADE — TASTE PROFILE
+============================================
+  Genre         : techno
+  Energy        : 0.85
+  Valence       : 0.8
+  Danceability  : 0.85
+  Tempo Bpm     : 150
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Signal Lost — Grid Runner
+   Score: 4.05
+   Why:
+     • genre match: techno (+1.0)
+     • energy near target (+1.46)
+     • valence near target (+0.69)
+     • danceability near target (+0.49)
+     • tempo_bpm near target (+0.41)
+
+2. Neon Alley — Pulse Theory
+   Score: 3.64
+   Why:
+     • same genre family as techno (+0.5)
+     • energy near target (+1.35)
+     • valence near target (+0.92)
+     • danceability near target (+0.47)
+     • tempo_bpm near target (+0.40)
+
+3. Night Drive Loop — Neon Echo
+   Score: 3.29
+   Why:
+     • same genre family as techno (+0.5)
+     • energy near target (+1.35)
+     • valence near target (+0.69)
+     • danceability near target (+0.44)
+     • tempo_bpm near target (+0.31)
+
+4. Gym Hero — Max Pulse
+   Score: 3.25
+   Why:
+     • energy near target (+1.38)
+     • valence near target (+0.97)
+     • danceability near target (+0.48)
+     • tempo_bpm near target (+0.42)
+
+5. Sunrise City — Neon Echo
+   Score: 3.24
+   Why:
+     • energy near target (+1.46)
+     • valence near target (+0.96)
+     • danceability near target (+0.47)
+     • tempo_bpm near target (+0.35)
+
+
+============================================
+  HIP HOP-OPTAMUS — TASTE PROFILE
+============================================
+  Genre         : hip hop
+  Energy        : 0.7
+  Valence       : 0.6
+  Danceability  : 0.8
+  Tempo Bpm     : 95
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Concrete Kings — Blocktext
+   Score: 4.35
+   Why:
+     • genre match: hip hop (+1.0)
+     • energy near target (+1.38)
+     • valence near target (+1.00)
+     • danceability near target (+0.47)
+     • tempo_bpm near target (+0.50)
+
+2. Velvet Hours — Ivory Lane
+   Score: 3.53
+   Why:
+     • same genre family as hip hop (+0.5)
+     • energy near target (+1.16)
+     • valence near target (+0.93)
+     • danceability near target (+0.45)
+     • tempo_bpm near target (+0.49)
+
+3. Island Time — Sunset Palms
+   Score: 3.43
+   Why:
+     • same genre family as hip hop (+0.5)
+     • energy near target (+1.26)
+     • valence near target (+0.78)
+     • danceability near target (+0.47)
+     • tempo_bpm near target (+0.41)
+
+4. Night Drive Loop — Neon Echo
+   Score: 3.21
+   Why:
+     • energy near target (+1.42)
+     • valence near target (+0.89)
+     • danceability near target (+0.46)
+     • tempo_bpm near target (+0.43)
+
+5. Rooftop Lights — Indigo Parade
+   Score: 3.06
+   Why:
+     • energy near target (+1.41)
+     • valence near target (+0.79)
+     • danceability near target (+0.49)
+     • tempo_bpm near target (+0.37)
+
+
+============================================
+  EMO RAGER — TASTE PROFILE
+============================================
+  Genre         : metal
+  Energy        : 0.95
+  Valence       : 0.05
+  Danceability  : 0.1
+  Tempo Bpm     : 60
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Iron Verdict — Ashfall
+   Score: 3.57
+   Why:
+     • genre match: metal (+1.0)
+     • energy near target (+1.47)
+     • valence near target (+0.79)
+     • danceability near target (+0.31)
+     • tempo_bpm near target (+0.00)
+
+2. Storm Runner — Voltline
+   Score: 2.80
+   Why:
+     • same genre family as metal (+0.5)
+     • energy near target (+1.44)
+     • valence near target (+0.57)
+     • danceability near target (+0.22)
+     • tempo_bpm near target (+0.07)
+
+3. Signal Lost — Grid Runner
+   Score: 2.26
+   Why:
+     • energy near target (+1.40)
+     • valence near target (+0.56)
+     • danceability near target (+0.13)
+     • tempo_bpm near target (+0.18)
+
+4. Night Drive Loop — Neon Echo
+   Score: 2.21
+   Why:
+     • energy near target (+1.20)
+     • valence near target (+0.56)
+     • danceability near target (+0.18)
+     • tempo_bpm near target (+0.27)
+
+5. Concrete Kings — Blocktext
+   Score: 2.15
+   Why:
+     • energy near target (+1.25)
+     • valence near target (+0.45)
+     • danceability near target (+0.12)
+     • tempo_bpm near target (+0.33)
+
+
+============================================
+  OUT OF BOUNDS — TASTE PROFILE
+============================================
+  Genre         : polka
+  Energy        : 1.5
+  Valence       : -0.2
+  Danceability  : 2.0
+  Tempo Bpm     : 300
+
+============================================
+  TOP 5 RECOMMENDATIONS
+============================================
+
+1. Iron Verdict — Ashfall
+   Score: 0.87
+   Why:
+     • energy near target (+0.70)
+     • valence near target (+0.54)
+     • danceability near target (+-0.26)
+     • tempo_bpm near target (+-0.11)
+
+2. Storm Runner — Voltline
+   Score: 0.58
+   Why:
+     • energy near target (+0.61)
+     • valence near target (+0.32)
+     • danceability near target (+-0.17)
+     • tempo_bpm near target (+-0.19)
+
+3. Signal Lost — Grid Runner
+   Score: 0.51
+   Why:
+     • energy near target (+0.57)
+     • valence near target (+0.31)
+     • danceability near target (+-0.08)
+     • tempo_bpm near target (+-0.29)
+
+4. Neon Alley — Pulse Theory
+   Score: 0.41
+   Why:
+     • energy near target (+0.67)
+     • valence near target (+0.08)
+     • danceability near target (+-0.04)
+     • tempo_bpm near target (+-0.30)
+
+5. Gym Hero — Max Pulse
+   Score: 0.34
+   Why:
+     • energy near target (+0.65)
+     • valence near target (+0.03)
+     • danceability near target (+-0.06)
+     • tempo_bpm near target (+-0.28)
+     
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
